@@ -1,0 +1,37 @@
+---
+title: "Global Election Database explore"
+author: "Christopher Junk"
+date: "February 15, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(countrycode)
+library(data.table)
+ged <- fread('http://www.globalelectionsdatabase.com/index.php/datasets/download/csv/WOMBAT-1052')
+table(ged$legid) #look at how many observations there are for each election type 
+ged$legid_label <- ordered(ged$legid,
+                    levels = c(1, 2, 3, 4, 5),
+                    labels = c('national lower',      #1
+                               'national upper',      #2
+                               'subnational lower',   #3
+                               'subnational upper',   #4
+                               'presidential'         #5
+                               ))
+
+table(ged$legid) #the table with value labels. 
+ged$legid_num <- as.numeric(ged$legid)
+ged_subnational <- ged %>% 
+                       filter(legid_num == 3)
+
+```
+
+The ged_subnational dataframe that has been filtered by the subnational elections. The dataframe initially has only lower house subnational elections. So, there are only subnational lower elections in this dataframe. 
+
+```{r}
+ged_subnational %>%
+                filter(cnty == "United States") 
+```
+
