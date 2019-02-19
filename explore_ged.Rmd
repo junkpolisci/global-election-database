@@ -26,12 +26,16 @@ ged$legid_num <- as.numeric(ged$legid)
 ged_subnational <- ged %>% 
                        filter(legid_num == 3)
 
+
 ```
 
 The ged_subnational dataframe that has been filtered by the subnational elections. The dataframe initially has only lower house subnational elections. So, there are only subnational lower elections in this dataframe. 
 
+For subnational elections the GED data only has the following countries. The number in the cells indicates the number of parties running in that year. 
 ```{r}
-ged_subnational %>%
-                filter(cnty == "United States") 
+country_year <- ged_subnational %>% 
+    group_by(cnty, year)
+table(country_year$year, country_year$cnty)
 ```
+
 
